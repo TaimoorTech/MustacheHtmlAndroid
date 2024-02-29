@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title> Equipment Trending Page </title>
+    <style>
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 100vh;
+        margin: 0;
+        padding: 20px;
+      }
+
+      #left-section {
+        flex: 1;
+        text-align: center;
+      }
+
+      #right-section {
+        flex: 1;
+        text-align: center;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+
+      th,
+      td {
+        border: 1px solid #1d1a1a;
+        padding: 8px;
+        text-align: left;
+      }
+
+      th {
+        background-color: #ddd;
+      }
+      .equipment-details {
+        border: 1px solid #ddd;
+        padding: 10px;
+        box-sizing: border-box;
+        text-align: left;
+        display: flex;
+        flex-direction: column;
+      }
+
+      label {
+        margin-bottom: 8px;
+      }
+      .label-header-div {
+        margin-top: 10px;
+        background-color: #ddd;
+      }
+      .label-header {
+        border: 1px solid #ddd;
+        padding: 10px;
+        box-sizing: border-box;
+        text-align: left;
+        display: flex;
+        flex-direction: column;
+      }
+      .label-body {
+      }
+      .label-Footer {
+      }
+      .table_main_div {
+        width: 95%;
+        padding-left: 5%;
+      }
+      .container {
+        display: flex;
+      }
+
+      .left-div {
+        padding: 10px;
+      }
+      .right-div {
+        padding: 10px;
+      }
+
+      .left-div img {
+        max-width: 90%;
+        height: auto;
+      }
+      .fontSize12 {
+        font-size: 12px;
+      }
+      .backcolor {
+        background-color: #ddd;
+      }
+      .imgSize {
+        width: 160px;
+        height: 50px;
+      }
+      .font weight {
+        font-weight: bold;
+        font-size: 16px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="right-section">
+      <div class="container">
+        <div class="left-div">
+          <img
+            class="imgSize"
+            src="C:\Users\Muhammad.Shahabuddin\Documents\workspace\Alkhyrof_angular_Projects\Template\comp_logo.png"
+            alt="Description of the image"
+          />
+        </div>
+        <div class="right-div fontweight">
+          <h2> {{ name }} </h2>
+          <div>
+            <label>As of&nbsp;&nbsp;9 jan 2024 </label>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th class="fontSize12">Equipment Category: {{ category}} </th>
+            </tr>
+            <tr>
+              <th class="fontSize12">Manufacturer: {{manufacturer}} </th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+      <div>
+        <div>
+          <table>
+            <thead>
+              <tr>
+                <th class="fontSize12">Country: : {{ country }} </th>
+              </tr>
+              <tr>
+                <th class="fontSize12">Project</th>
+                <th class="fontSize12">Actual Amount</th>
+                <th class="fontSize12">Warehoused</th>
+                <th class="fontSize12">Installed</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="fontSize12">Colombia Project</td>
+                <td class="fontSize12">4,312</td>
+                <td class="fontSize12">2,949</td>
+                <td class="fontSize12">1,363</td>
+              </tr>
+              <tr class="backcolor">
+                <td class="fontSize12">Total in Colombia</td>
+                <td class="fontSize12">4,312</td>
+                <td class="fontSize12">2,949</td>
+                <td class="fontSize12">1,363</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th class="fontSize12">Country: {{ country }} </th>
+            </tr>
+            <tr>
+              <th class="fontSize12">Project</th>
+              <th class="fontSize12">Actual Amount</th>
+              <th class="fontSize12">Warehoused</th>
+              <th class="fontSize12">Installed</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="fontSize12">Colombia Project</td>
+              <td class="fontSize12">4,312</td>
+              <td class="fontSize12">2,949</td>
+              <td class="fontSize12">1,363</td>
+            </tr>
+            <tr class="backcolor">
+              <td class="fontSize12">Total in Colombia</td>
+              <td class="fontSize12">4,312</td>
+              <td class="fontSize12">2,949</td>
+              <td class="fontSize12">1,363</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>
