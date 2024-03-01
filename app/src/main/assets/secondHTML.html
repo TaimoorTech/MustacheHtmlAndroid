@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Equipment Trending Page</title>
+        <style>
+          body {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+          }
+
+          #left-section {
+            flex: 1;
+            text-align: center;
+          }
+
+          #right-section {
+            flex: 1;
+            text-align: center;
+          }
+
+          table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+          }
+
+          th,
+          td {
+            border: 1px solid #1d1a1a;
+            padding: 8px;
+            text-align: left;
+          }
+
+          th {
+            background-color: #ddd;
+          }
+          .equipment-details {
+            border: 1px solid #ddd;
+            padding: 10px;
+            box-sizing: border-box;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+          }
+
+          label {
+            margin-bottom: 8px;
+          }
+          .label-header-div {
+            margin-top: 10px;
+            background-color: #ddd;
+          }
+          .label-header {
+            border: 1px solid #ddd;
+            padding: 10px;
+            box-sizing: border-box;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+          }
+          .label-body {
+          }
+          .label-Footer {
+          }
+          .table_main_div {
+            width: 95%;
+            padding-left: 5%;
+          }
+          .container {
+            display: flex;
+          }
+
+          .left-div {
+            padding: 10px;
+          }
+          .right-div {
+            padding: 10px;
+          }
+
+          .left-div img {
+            max-width: 90%;
+            height: auto;
+          }
+          .fontSize12 {
+            font-size: 12px;
+          }
+          .backcolor {
+            background-color: #ddd;
+          }
+          .imgSize {
+            width: 160px;
+            height: 50px;
+          }
+          .fontweight {
+            font-weight: bold;
+            font-size: 16px;
+          }
+    </style>
+    </head>
+
+    <body>
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th class="fontSize12">Date</th>
+                        <th class="fontSize12">Time</th>
+                        <th class="fontSize12">Joints</th>
+                        <th class="fontSize12">Pi\nPSI</th>
+                        <th class="fontSize12">Pd\nPSI</th>
+                        <th class="fontSize12">Ti\nPSI</th>
+                        <th class="fontSize12">Tm\n F</th>
+                        <th class="fontSize12">Vx\n F</th>
+                        <th class="fontSize12">Vz\n G</th>
+                        <th class="fontSize12">Vt\n mA</th>
+                        <th class="fontSize12">Ct\n mA</th>
+                        <th class="fontSize12">Megger Phase To GND M Ohms</th>
+                        <th class="fontSize12">Phase To Phase Ohms</th>
+                        <th class="fontSize12">COMMENTS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#items}}
+                    <tr>
+                        <td class="fontSize12"> {{ date }} </td>
+                        <td class="fontSize12"> {{ time }} </td>
+                        <td class="fontSize12"> {{ joints }} </td>
+                        <td class="fontSize12"> {{ pi_psi }} </td>
+                        <td class="fontSize12"> {{ pd_psi }} </td>
+                        <td class="fontSize12"> {{ ti_psi }} </td>
+                        <td class="fontSize12"> {{ tm_f }} </td>
+                        <td class="fontSize12"> {{ vx_f }} </td>
+                        <td class="fontSize12"> {{ vz_g }} </td>
+                        <td class="fontSize12"> {{ vt_mA }} </td>
+                        <td class="fontSize12"> {{ ct_mA }} </td>
+                        <td class="fontSize12"> {{ merger }} </td>
+                        <td class="fontSize12"> {{ phase }} </td>
+                        <td class="fontSize12"> {{ comments }} </td>
+                    </tr>
+                    {{/items}}
+                </tbody>
+            </table>
+        </div>
+
+
+    </body>
+
+
+
+
+</html>
