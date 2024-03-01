@@ -6,120 +6,52 @@
         <title>Equipment Trending Page</title>
         <style>
           body {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
             height: 100vh;
             margin: 0;
-            padding: 20px;
-          }
-
-          #left-section {
-            flex: 1;
-            text-align: center;
-          }
-
-          #right-section {
-            flex: 1;
-            text-align: center;
+            padding: 2px;
           }
 
           table {
             width: 100%;
+            max-width:100vw;
             border-collapse: collapse;
-            margin-top: 20px;
           }
 
           th,
           td {
             border: 1px solid #1d1a1a;
-            padding: 8px;
-            text-align: left;
+            padding: 1px;
+            text-align: center;
+            width: 7%;
           }
 
           th {
-            background-color: #ddd;
-          }
-          .equipment-details {
-            border: 1px solid #ddd;
-            padding: 10px;
-            box-sizing: border-box;
-            text-align: left;
-            display: flex;
-            flex-direction: column;
-          }
-
-          label {
-            margin-bottom: 8px;
-          }
-          .label-header-div {
-            margin-top: 10px;
-            background-color: #ddd;
-          }
-          .label-header {
-            border: 1px solid #ddd;
-            padding: 10px;
-            box-sizing: border-box;
-            text-align: left;
-            display: flex;
-            flex-direction: column;
-          }
-          .label-body {
-          }
-          .label-Footer {
-          }
-          .table_main_div {
-            width: 95%;
-            padding-left: 5%;
-          }
-          .container {
-            display: flex;
-          }
-
-          .left-div {
-            padding: 10px;
-          }
-          .right-div {
-            padding: 10px;
-          }
-
-          .left-div img {
-            max-width: 90%;
-            height: auto;
+            background-color: #243e69;
+            color: #ffffff
           }
           .fontSize12 {
             font-size: 12px;
           }
-          .backcolor {
-            background-color: #ddd;
-          }
-          .imgSize {
-            width: 160px;
-            height: 50px;
-          }
-          .fontweight {
-            font-weight: bold;
-            font-size: 16px;
-          }
+
     </style>
     </head>
 
     <body>
         <div>
-            <table>
+            <table >
                 <thead>
                     <tr>
                         <th class="fontSize12">Date</th>
                         <th class="fontSize12">Time</th>
                         <th class="fontSize12">Joints</th>
-                        <th class="fontSize12">Pi\nPSI</th>
-                        <th class="fontSize12">Pd\nPSI</th>
-                        <th class="fontSize12">Ti\nPSI</th>
-                        <th class="fontSize12">Tm\n F</th>
-                        <th class="fontSize12">Vx\n F</th>
-                        <th class="fontSize12">Vz\n G</th>
-                        <th class="fontSize12">Vt\n mA</th>
-                        <th class="fontSize12">Ct\n mA</th>
+                        <th class="fontSize12">Pi PSI</th>
+                        <th class="fontSize12">Pd PSI</th>
+                        <th class="fontSize12">Ti PSI</th>
+                        <th class="fontSize12">Tm F</th>
+                        <th class="fontSize12">Vx F</th>
+                        <th class="fontSize12">Vz G</th>
+                        <th class="fontSize12">Vt mA</th>
+                        <th class="fontSize12">Ct mA</th>
                         <th class="fontSize12">Megger Phase To GND M Ohms</th>
                         <th class="fontSize12">Phase To Phase Ohms</th>
                         <th class="fontSize12">COMMENTS</th>
