@@ -1,16 +1,27 @@
 package com.example.liquidtemplateapplication;
-
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.pdf.PdfDocument;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import android.webkit.WebSettings;
-
 import android.webkit.WebView;
-
+import android.webkit.WebViewClient;
+import android.widget.Toast;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -19,111 +30,109 @@ import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
-
-
+    private static final int REQUEST_WRITE_EXTERNAL_STORAGE = 1;
+    WebView webView;
+    String renderedHtml = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        WebView webView = findViewById(R.id.webView);
+        webView = findViewById(R.id.webView);
         WebSettings webSettings = webView.getSettings();
-        webSettings.setJavaScriptEnabled(true); // Enable JavaScript
+        webSettings.setJavaScriptEnabled(true);
 
-        String title = "Equipment Trending Page";
-        String name = "Shahab";
-        String date = "9 jan 2024";
-        String category = "Pump";
-        String manufacturer = "APC";
-        String country = "Columbia";
-        String amounts1 = "4,312";
-        String amounts2 = "2,949";
-        String amounts3 = "1,363";
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_EXTERNAL_STORAGE);
+            }
+        }
 
         ArrayList<String[]> list = templateList.listOfData;
 
-        // Load Mustache template from assets folder
-//            String htmlTemplate = loadTemplateFromAssets("Equipment_Trending.html");
-//        String htmlTemplate = loadTemplateFromAssets("template.html");
-//        String htmlTemplate = loadTemplateFromAssets("example.html");
-        String htmlTemplate = loadHtmlTemplate();
+        ArrayList<Map<String, String>> dataList = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            Map<String, String> data = new HashMap<>();
+            data.put("date",list.get(i)[0]);
+            data.put("time",list.get(i)[1]);
+            data.put("joints",list.get(i)[2]);
+            data.put("pi_psi",list.get(i)[3]);
+            data.put("pd_psi",list.get(i)[4]);
+            data.put("ti_psi",list.get(i)[5]);
+            data.put("tm_f",list.get(i)[6]);
+            data.put("vx_f",list.get(i)[7]);
+            data.put("vz_g",list.get(i)[8]);
+            data.put("vt_mA",list.get(i)[9]);
+            data.put("ct_mA",list.get(i)[10]);
+            data.put("merger",list.get(i)[11]);
+            data.put("phase",list.get(i)[12]);
+            data.put("comments",list.get(i)[13]);
+            dataList.add(data);
+        }
 
-//            String fn = "John";
-//            String ln = "Doe";
-            // Create a map to hold dynamic data
-            ArrayList<Map<String, String>> dataList = new ArrayList<>();
-            for (int i = 0; i < list.size(); i++) {
-                Map<String, String> data = new HashMap<>();
-                data.put("date",list.get(i)[0]);
-                data.put("time",list.get(i)[1]);
-                data.put("joints",list.get(i)[2]);
-                data.put("pi_psi",list.get(i)[3]);
-                data.put("pd_psi",list.get(i)[4]);
-                data.put("ti_psi",list.get(i)[5]);
-                data.put("tm_f",list.get(i)[6]);
-                data.put("vx_f",list.get(i)[7]);
-                data.put("vz_g",list.get(i)[8]);
-                data.put("vt_mA",list.get(i)[9]);
-                data.put("ct_mA",list.get(i)[10]);
-                data.put("merger",list.get(i)[11]);
-                data.put("phase",list.get(i)[12]);
-                data.put("comments",list.get(i)[13]);
-                dataList.add(data);
-            }
 
-//        data.put("firstName", fn);
-//        data.put("lastName", ln);
-
-//            data.put("title", title);
-//            data.put("date", date);
-//            data.put("name", name);
-//            data.put("category", category);
-//            data.put("manufacturer", manufacturer);
-//            data.put("country", country);
-//        data.put("amounts1", "4,312");
-//        data.put("amounts2", "2,949");
-//        data.put("amounts3", "1,363");
-
-//        Map<String, Object> context = new HashMap<>();
-//        context.put("title", "Dynamic HTML with Mustache");
-//        context.put("heading", "Welcome to my App");
-//        context.put("content", "This is some dynamic content rendered with Mustache tags.");
-//        context.put("background_color", "#f0f0f0");
-//        context.put("text_color", "#333333");
-
-        String renderedHtml = "";
-            // Render HTML template with dynamic data
         renderedHtml = renderHtmlWithMustache(dataList);
         webView.loadDataWithBaseURL(null, renderedHtml, "text/html", "UTF-8", null);
 
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                saveAsPDF();
+            }
+        });
 
-        // Load rendered HTML into WebView
-//            webView.loadData(renderedHtml, "text/html", "UTF-8");
 
-//        webView.loadUrl("file:///android_asset/Equipment_Trending.html");
     }
 
+    private void saveAsPDF() {
+        // Create a bitmap of the WebView content
+        // Create a PDF document
+        PdfDocument document = new PdfDocument();
 
-//    private String loadTemplateFromAssets(String fileName) {
-//        try {
-//            InputStream inputStream = getAssets().open(fileName);
-//            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-//            StringBuilder stringBuilder = new StringBuilder();
-//            String line;
-//            while ((line = reader.readLine()) != null) {
-//                stringBuilder.append(line);
-//            }
-//            reader.close();
-//            return stringBuilder.toString();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            return null;
-//        }
-//    }
+        for (int i = 1; i <= 2; i++) {
+            Bitmap bitmap = Bitmap.createBitmap(webView.getWidth(), webView.getHeight(), Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
+            webView.draw(canvas);
+            PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(bitmap.getWidth(), bitmap.getHeight(), 1).create();
+            PdfDocument.Page page = document.startPage(pageInfo);
 
-//    private String renderHtmlTemplate(String template, Map<String, Object> data) {
-//        return Mustache.compiler().compile(template).execute(data);
-//    }
+            // Draw the bitmap onto the PDF page
+            Canvas pdfCanvas = page.getCanvas();
+            pdfCanvas.drawBitmap(bitmap, 0, 0, null);
+
+            // Finish the page
+            document.finishPage(page);
+        }
+
+        // Save the PDF document
+        File pdfFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "webview_content.pdf");
+        try {
+            document.writeTo(new FileOutputStream(pdfFile));
+            Toast.makeText(this, "PDF saved successfully", Toast.LENGTH_SHORT).show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Failed to save PDF", Toast.LENGTH_SHORT).show();
+        }
+
+        // Close the PDF document
+        document.close();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_WRITE_EXTERNAL_STORAGE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted, reload the WebView to trigger PDF creation
+                webView.reload();
+            } else {
+                // Permission denied, show a message or handle it accordingly
+                Toast.makeText(this, "Permission denied to write to external storage", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
 
     private String loadHtmlTemplate() {
         try {
@@ -138,11 +147,6 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
             return "";
         }
-    }
-
-    private String renderHtmlTemplate(String template, Map<String, String> context) {
-        Template tmpl = Mustache.compiler().compile(template);
-        return tmpl.execute(context);
     }
 
     private String renderHtmlWithMustache(List<Map<String, String>> itemList) {
