@@ -1,5 +1,6 @@
 package com.example.liquidtemplateapplication;
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -12,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import android.os.Handler;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -74,12 +76,15 @@ public class MainActivity extends AppCompatActivity {
         renderedHtml = renderHtmlWithMustache(dataList);
         webView.loadDataWithBaseURL(null, renderedHtml, "text/html", "UTF-8", null);
 
+
         webView.setWebViewClient(new WebViewClient() {
+
             @Override
-            public void onPageFinished(WebView view, String url) {
-                super.onPageFinished(view, url);
+            public void onPageCommitVisible (WebView view, String url){
                 saveAsPDF();
             }
+
+
         });
 
 
@@ -94,7 +99,8 @@ public class MainActivity extends AppCompatActivity {
             Bitmap bitmap = Bitmap.createBitmap(webView.getWidth(), webView.getHeight(), Bitmap.Config.ARGB_8888);
             Canvas canvas = new Canvas(bitmap);
             webView.draw(canvas);
-            PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(bitmap.getWidth(), bitmap.getHeight(), 1).create();
+            PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(bitmap.getWidth(), bitmap.getHeight(),
+                    i).create();
             PdfDocument.Page page = document.startPage(pageInfo);
 
             // Draw the bitmap onto the PDF page
