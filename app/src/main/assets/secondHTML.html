@@ -3,13 +3,87 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Equipment Trending Page</title>
+        <style>
+        .lastTextField {
+            border: 2px solid black;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .text {
+            font-weight: bold;
+        }
+        </style>
+
+        <style>
+
+            .container {
+                display: flex;
+                height: 40vh;
+                margin-bottom: 40px;
+                padding: 2px;
+                width: 100vw;
+            }
+
+
+
+            .bordered-text {
+                border: 2px solid black;
+                padding: 10px;
+                text-align: center;
+                margin-bottom: 20px;
+             }
+
+             .bordered-text2 {
+                border: 2px solid black;
+                padding: 30px;
+                text-align: center;
+             }
+
+            .table1{
+                border-collapse: collapse;
+                height: 40vh;
+                width: 16vw;
+                margin-bottom: 20px;
+                margin-right: 70px;
+                background-color: #243e69;
+                color: #ffffff;
+            }
+
+            .table2 {
+                border-collapse: collapse;
+                height: 40vh;
+                width: 15vw;
+                margin-bottom: 20px;
+                margin-right: 100px;
+            }
+
+            table:last-child {
+                margin-right: 0; /* Remove margin from the last column of each table */
+            }
+            .td{
+                border: 2px solid #1d1a1a;
+                padding: 8px;
+                text-align: left;
+            }
+
+            .td1{
+                border: 2px solid #1d1a1a;
+                padding: 8px;
+                text-align: center;
+            }
+
+        </style>
+
         <style>
           body {
             height: 100vh;
             margin: 0;
             padding: 2px;
           }
+
 
           table {
             width: 100%;
@@ -19,7 +93,7 @@
 
           th,
           td {
-            border: 1px solid #1d1a1a;
+            border: 2px solid #1d1a1a;
             padding: 1px;
             text-align: center;
             width: 7%;
@@ -33,10 +107,63 @@
             font-size: 12px;
           }
 
+          .fontSize12head {
+            font-size: 20px;
+            color: black;
+            text-align: center;
+          }
+
     </style>
     </head>
 
     <body>
+
+    <div class="bordered-text">
+        <text class="fontSize12head"> RIH Sheet </text>
+    </div>
+
+
+    <div class="container">
+            <table class="table1">
+                <tbody>
+
+                    <tr> <td class="td"> Company    </td> </tr>
+                    <tr> <td class="td"> Field Name </td> </tr>
+                    <tr> <td class="td"> Well Name  </td> </tr>
+                    <tr> <td class="td"> Job No     </td> </tr>
+
+                </tbody>
+            </table>
+
+            <table class="table2">
+                <tbody>
+                    <tr> <td class="td1"> {{ company }} </td> </tr>
+                    <tr> <td class="td1"> {{ field_name}} </td> </tr>
+                    <tr> <td class="td1"> {{ well_name }} </td> </tr>
+                    <tr> <td class="td1"> {{ job_no }} </td> </tr>
+                </tbody>
+            </table>
+
+            <table class="table1">
+                <tbody>
+                    <tr> <td class="td"> Sensor No    </td> </tr>
+                    <tr> <td class="td"> Checked by   </td> </tr>
+                    <tr> <td class="td"> Meggered at  </td>  </tr>
+                    <tr> <td class="td"> RIH Pane     </td>  </tr>
+
+                </tbody>
+            </table>
+
+            <table class="table2">
+                <tbody>
+                    <tr> <td class="td1"> {{ sensor_no }} </td> </tr>
+                    <tr> <td class="td1"> {{ checked_by }}    </td> </tr>
+                    <tr> <td class="td1"> {{ meggered_at }}     </td> </tr>
+                    <tr> <td class="td1"> {{ rih_pane }} </td> </tr>
+                </tbody>
+            </table>
+        </div>
+
         <div>
             <table >
                 <thead>
@@ -79,7 +206,14 @@
                 </tbody>
             </table>
         </div>
-
+    <div class="lastTextField">
+        <div style="margin-left: 100px;">
+            <span class="text">Aramco Rep:</span> <span>Variable Value 1</span>
+        </div>
+        <div style="margin-right: 100px;">
+            <span class="text">APC Rep:</span> <span> Jaber Alhajri</span>
+        </div>
+    </div>
 
     </body>
 

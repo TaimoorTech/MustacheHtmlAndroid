@@ -1,6 +1,5 @@
 package com.example.liquidtemplateapplication;
 import android.Manifest;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -13,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import android.os.Handler;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -52,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
         ArrayList<String[]> list = templateList.listOfData;
 
+
         ArrayList<Map<String, String>> dataList = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             Map<String, String> data = new HashMap<>();
@@ -71,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
             data.put("comments",list.get(i)[13]);
             dataList.add(data);
         }
+
 
 
         renderedHtml = renderHtmlWithMustache(dataList);
@@ -125,6 +125,8 @@ public class MainActivity extends AppCompatActivity {
         document.close();
     }
 
+
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -170,6 +172,14 @@ public class MainActivity extends AppCompatActivity {
 
             // Render the template with data
             Map<String, Object> data = new HashMap<>();
+            data.put("company", "#REF!");
+            data.put("field_name", "#REF!");
+            data.put("well_name", "#REF!");
+            data.put("job_no", "#REF!");
+            data.put("sensor_no", "51090019");
+            data.put("checked_by", "Jaber");
+            data.put("meggered_at", "1 K");
+            data.put("rih_pane", "15220284");
             data.put("items", itemList);
             return template.execute(data);
         } catch (IOException e) {
