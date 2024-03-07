@@ -6,109 +6,94 @@
         <style>
         .lastTextField {
             border: 2px solid black;
-            padding: 10px;
+            padding: 5px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
         }
         .text {
+            font-size: 10px;
             font-weight: bold;
         }
         </style>
 
         <style>
 
-            .container {
+           .table-container {
                 display: flex;
-                height: 40vh;
-                margin-bottom: 40px;
-                padding: 2px;
-                width: 100vw;
-            }
+                justify-content: space-between;
+                margin: 20px - 2px;
+                margin-bottom: 10px;
+             }
 
+              /* Style for individual tables */
+              .table3 {
+                width: calc(20% - 10px); /* Divide the available width equally for four tables */
+                border-collapse: collapse;
+                margin: 0 5px;
+              }
 
+              /* Center content within cells */
+              .td1 {
+                font-size: 8px;
+                text-align: center;
+                border: 1px solid #ddd;
+              }
+
+              /* Set background color for alternate tables */
+              table:nth-child(odd) {
+               background-color: #243e69;
+               color: #ffffff;
+              }
 
             .bordered-text {
                 border: 2px solid black;
-                padding: 10px;
+                padding: 5px;
                 text-align: center;
-                margin-bottom: 20px;
+                margin-bottom: 10px;
              }
-
-             .bordered-text2 {
-                border: 2px solid black;
-                padding: 30px;
-                text-align: center;
-             }
-
-            .table1{
-                border-collapse: collapse;
-                height: 40vh;
-                width: 16vw;
-                margin-bottom: 20px;
-                margin-right: 70px;
-                background-color: #243e69;
-                color: #ffffff;
-            }
-
-            .table2 {
-                border-collapse: collapse;
-                height: 40vh;
-                width: 15vw;
-                margin-bottom: 20px;
-                margin-right: 100px;
-            }
-
             table:last-child {
                 margin-right: 0; /* Remove margin from the last column of each table */
             }
-            .td{
-                border: 2px solid #1d1a1a;
-                padding: 8px;
-                text-align: left;
-            }
-
-            .td1{
-                border: 2px solid #1d1a1a;
-                padding: 8px;
-                text-align: center;
-            }
-
         </style>
 
         <style>
-          body {
-            height: 100vh;
-            margin: 0;
-            padding: 2px;
-          }
 
+           table {
+               border: 2px solid black;
+               max-width: 100%;
+               border-collapse: collapse;
+           }
 
-          table {
-            width: 100%;
-            max-width:100vw;
-            border-collapse: collapse;
-          }
-
-          th,
-          td {
-            border: 2px solid #1d1a1a;
+          /* Style for table header */
+          .th {
+            background-color: #243e69;
             padding: 1px;
             text-align: center;
-            width: 7%;
+            border: 1px solid #ddd;
+            width:3% !important;
+            font-size: 8px;
           }
 
-          th {
-            background-color: #243e69;
-            color: #ffffff
+          /* Style for table data cells */
+          .td {
+            background-color: #ffffff;
+            color: black;
+            padding: 1px;
+            font-size: 8px;
+            width:3% !important;
+            text-align: center;
+            border: 1px solid #ddd;
           }
+
+
           .fontSize12 {
             font-size: 12px;
           }
 
           .fontSize12head {
-            font-size: 20px;
+            font-size: 16px;
             color: black;
             text-align: center;
           }
@@ -123,19 +108,19 @@
     </div>
 
 
-    <div class="container">
-            <table class="table1">
+    <div class="table-container">
+            <table class="table3">
                 <tbody>
 
-                    <tr> <td class="td"> Company    </td> </tr>
-                    <tr> <td class="td"> Field Name </td> </tr>
-                    <tr> <td class="td"> Well Name  </td> </tr>
-                    <tr> <td class="td"> Job No     </td> </tr>
+                    <tr> <td class="td1"> Company    </td> </tr>
+                    <tr> <td class="td1"> Field Name </td> </tr>
+                    <tr> <td class="td1"> Well Name  </td> </tr>
+                    <tr> <td class="td1"> Job No     </td> </tr>
 
                 </tbody>
             </table>
 
-            <table class="table2">
+            <table class="table3">
                 <tbody>
                     <tr> <td class="td1"> {{ company }} </td> </tr>
                     <tr> <td class="td1"> {{ field_name}} </td> </tr>
@@ -144,17 +129,17 @@
                 </tbody>
             </table>
 
-            <table class="table1">
+            <table class="table3">
                 <tbody>
-                    <tr> <td class="td"> Sensor No    </td> </tr>
-                    <tr> <td class="td"> Checked by   </td> </tr>
-                    <tr> <td class="td"> Meggered at  </td>  </tr>
-                    <tr> <td class="td"> RIH Pane     </td>  </tr>
+                    <tr> <td class="td1"> Sensor No    </td> </tr>
+                    <tr> <td class="td1"> Checked by   </td> </tr>
+                    <tr> <td class="td1"> Meggered at  </td>  </tr>
+                    <tr> <td class="td1"> RIH Pane     </td>  </tr>
 
                 </tbody>
             </table>
 
-            <table class="table2">
+            <table class="table3">
                 <tbody>
                     <tr> <td class="td1"> {{ sensor_no }} </td> </tr>
                     <tr> <td class="td1"> {{ checked_by }}    </td> </tr>
@@ -168,50 +153,50 @@
             <table >
                 <thead>
                     <tr>
-                        <th class="fontSize12">Date</th>
-                        <th class="fontSize12">Time</th>
-                        <th class="fontSize12">Joints</th>
-                        <th class="fontSize12">Pi PSI</th>
-                        <th class="fontSize12">Pd PSI</th>
-                        <th class="fontSize12">Ti PSI</th>
-                        <th class="fontSize12">Tm F</th>
-                        <th class="fontSize12">Vx F</th>
-                        <th class="fontSize12">Vz G</th>
-                        <th class="fontSize12">Vt mA</th>
-                        <th class="fontSize12">Ct mA</th>
-                        <th class="fontSize12">Megger Phase To GND M Ohms</th>
-                        <th class="fontSize12">Phase To Phase Ohms</th>
-                        <th class="fontSize12">COMMENTS</th>
+                        <th class="th">Date</th>
+                        <th class="th">Time</th>
+                        <th class="th">Joints</th>
+                        <th class="th">Pi PSI</th>
+                        <th class="th">Pd PSI</th>
+                        <th class="th">Ti PSI</th>
+                        <th class="th">Tm F</th>
+                        <th class="th">Vx F</th>
+                        <th class="th">Vz G</th>
+                        <th class="th">Vt mA</th>
+                        <th class="th">Ct mA</th>
+                        <th class="th">Megger Phase To GND M Ohms</th>
+                        <th class="th">Phase To Phase Ohms</th>
+                        <th class="th">COMMENTS</th>
                     </tr>
                 </thead>
                 <tbody>
                     {{#items}}
                     <tr>
-                        <td class="fontSize12"> {{ date }} </td>
-                        <td class="fontSize12"> {{ time }} </td>
-                        <td class="fontSize12"> {{ joints }} </td>
-                        <td class="fontSize12"> {{ pi_psi }} </td>
-                        <td class="fontSize12"> {{ pd_psi }} </td>
-                        <td class="fontSize12"> {{ ti_psi }} </td>
-                        <td class="fontSize12"> {{ tm_f }} </td>
-                        <td class="fontSize12"> {{ vx_f }} </td>
-                        <td class="fontSize12"> {{ vz_g }} </td>
-                        <td class="fontSize12"> {{ vt_mA }} </td>
-                        <td class="fontSize12"> {{ ct_mA }} </td>
-                        <td class="fontSize12"> {{ merger }} </td>
-                        <td class="fontSize12"> {{ phase }} </td>
-                        <td class="fontSize12"> {{ comments }} </td>
+                        <td class="td"> {{ date }} </td>
+                        <td class="td"> {{ time }} </td>
+                        <td class="td"> {{ joints }} </td>
+                        <td class="td"> {{ pi_psi }} </td>
+                        <td class="td"> {{ pd_psi }} </td>
+                        <td class="td"> {{ ti_psi }} </td>
+                        <td class="td"> {{ tm_f }} </td>
+                        <td class="td"> {{ vx_f }} </td>
+                        <td class="td"> {{ vz_g }} </td>
+                        <td class="td"> {{ vt_mA }} </td>
+                        <td class="td"> {{ ct_mA }} </td>
+                        <td class="td"> {{ merger }} </td>
+                        <td class="td"> {{ phase }} </td>
+                        <td class="td"> {{ comments }} </td>
                     </tr>
                     {{/items}}
                 </tbody>
             </table>
         </div>
     <div class="lastTextField">
-        <div style="margin-left: 100px;">
-            <span class="text">Aramco Rep:</span> <span>Variable Value 1</span>
+        <div style="margin-left: 8px;">
+            <span class="text">Aramco Rep:</span> <span class="text">Variable Value 1</span>
         </div>
-        <div style="margin-right: 100px;">
-            <span class="text">APC Rep:</span> <span> Jaber Alhajri</span>
+        <div style="margin-right: 8px;">
+            <span class="text">APC Rep:</span> <span class="text"> Jaber Alhajri</span>
         </div>
     </div>
 
