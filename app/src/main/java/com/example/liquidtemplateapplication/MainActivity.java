@@ -12,13 +12,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import android.os.Handler;
+import android.view.MotionEvent;
+import android.view.View;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.Toast;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 
@@ -30,6 +37,12 @@ import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
+    boolean pageLoaded = false;
+
+    float oldDist = 1f;
+    private static final int INVALID_POINTER_ID = -1;
+    private int mActivePointerId = INVALID_POINTER_ID;
+
     private static final int REQUEST_WRITE_EXTERNAL_STORAGE = 1;
     WebView webView;
     String renderedHtml = "";
@@ -38,9 +51,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        FloatingActionButton fabZoomOut = findViewById(R.id.fab_zoom_out);
         webView = findViewById(R.id.webView);
-        WebSettings webSettings = webView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
+        webView.getSettings().setBuiltInZoomControls(true);
+        webView.getSettings().setDisplayZoomControls(false);
+        webView.getSettings().setSupportZoom(true);
+        webView.getSettings().setJavaScriptEnabled(true); // Enable JavaScript for proper functionality
+        webView.setWebViewClient(new CustomWebViewClient());
+        webView.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                super.onProgressChanged(view, newProgress);
+                // Check if the page has finished loading
+                if (newProgress == 100) {
+                    pageLoaded = true;
+                }
+            }
+        });
 
         // Getting Storage Permission
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -90,12 +117,28 @@ public class MainActivity extends AppCompatActivity {
         renderedHtml = renderHtmlWithMustache(finalDataList);
         webView.loadDataWithBaseURL(null, renderedHtml, "text/html", "UTF-8", null);
 
-        webView.setWebViewClient(new WebViewClient() {
+
+
+        fabZoomOut.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onPageCommitVisible (WebView view, String url){
-                saveAsPDF();
+            public void onClick(View v) {
+                // Reset the zoom level to its original view
+                if (pageLoaded) {
+                    // Reset the zoom level to its original view
+                    webView.getSettings().setLoadWithOverviewMode(true);
+                    webView.getSettings().setUseWideViewPort(true);
+                    webView.loadDataWithBaseURL(null, renderedHtml, "text/html", "UTF-8", null);
+                }
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        saveAsPDF();
+                    }
+                }, 2000);
+
             }
         });
+
 
     }
 
@@ -169,6 +212,64 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
             return "";
         }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent ev) {
+        final int action = ev.getAction();
+
+        switch (action & MotionEvent.ACTION_MASK) {
+            case MotionEvent.ACTION_DOWN: {
+                final float x = ev.getX();
+                final float y = ev.getY();
+                mActivePointerId = ev.getPointerId(0);
+                break;
+            }
+
+            case MotionEvent.ACTION_MOVE: {
+                final int pointerIndex = ev.findPointerIndex(mActivePointerId);
+                final float x = ev.getX(pointerIndex);
+                final float y = ev.getY(pointerIndex);
+
+                if (ev.getPointerCount() == 2) {
+                    float newDist = spacing(ev);
+                    if (newDist > 10f) {
+                        float scale = newDist / oldDist;
+                        webView.zoomBy(scale);
+                        oldDist = newDist;
+                    }
+                }
+                break;
+            }
+
+            case MotionEvent.ACTION_UP: {
+                mActivePointerId = INVALID_POINTER_ID;
+                break;
+            }
+
+            case MotionEvent.ACTION_CANCEL: {
+                mActivePointerId = INVALID_POINTER_ID;
+                break;
+            }
+
+            case MotionEvent.ACTION_POINTER_UP: {
+                final int pointerIndex = (ev.getAction() & MotionEvent.ACTION_POINTER_INDEX_MASK)
+                        >> MotionEvent.ACTION_POINTER_INDEX_SHIFT;
+                final int pointerId = ev.getPointerId(pointerIndex);
+                if (pointerId == mActivePointerId) {
+                    final int newPointerIndex = pointerIndex == 0 ? 1 : 0;
+                    mActivePointerId = ev.getPointerId(newPointerIndex);
+                }
+                break;
+            }
+        }
+        return true;
+    }
+
+    private float spacing(MotionEvent event) {
+        float x = event.getX(0) - event.getX(1);
+        float y = event.getY(0) - event.getY(1);
+        return (float) Math.sqrt(x * x + y * y);
     }
 
 }
