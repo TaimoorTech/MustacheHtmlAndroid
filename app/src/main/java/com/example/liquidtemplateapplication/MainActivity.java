@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
 
+        // Getting Storage Permission
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_EXTERNAL_STORAGE);
@@ -50,8 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
         ArrayList<String[]> list = templateList.listOfData;
 
-
-        ArrayList<Map<String, String>> dataList = new ArrayList<>();
+        ArrayList<Map<String, String>> itemsDataList = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             Map<String, String> data = new HashMap<>();
             data.put("date",list.get(i)[0]);
@@ -68,25 +68,34 @@ public class MainActivity extends AppCompatActivity {
             data.put("merger",list.get(i)[11]);
             data.put("phase",list.get(i)[12]);
             data.put("comments",list.get(i)[13]);
-            dataList.add(data);
+            itemsDataList.add(data);
         }
 
+        // Assigning All Variables
+        Map<String, Object> finalDataList = new HashMap<>();
+        finalDataList.put("title", "RIH Sheet");
+        finalDataList.put("company", "#REF!");
+        finalDataList.put("field_name", "#REF!");
+        finalDataList.put("well_name", "#REF!");
+        finalDataList.put("job_no", "#REF!");
+        finalDataList.put("sensor_no", "51090019");
+        finalDataList.put("checked_by", "Jaber");
+        finalDataList.put("meggered_at", "1 K");
+        finalDataList.put("rih_pane", "15220284");
+        finalDataList.put("items", itemsDataList);
+        finalDataList.put("aramco_rep", "");
+        finalDataList.put("apc_rep", "Jaber Alhajri");
 
 
-        renderedHtml = renderHtmlWithMustache(dataList);
+        renderedHtml = renderHtmlWithMustache(finalDataList);
         webView.loadDataWithBaseURL(null, renderedHtml, "text/html", "UTF-8", null);
 
-
         webView.setWebViewClient(new WebViewClient() {
-
             @Override
             public void onPageCommitVisible (WebView view, String url){
                 saveAsPDF();
             }
-
-
         });
-
 
     }
 
@@ -142,25 +151,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private String loadHtmlTemplate() {
+    private String renderHtmlWithMustache(Map<String, Object> itemList) {
         try {
             // Load HTML template from assets folder
-            InputStream inputStream = getAssets().open("secondHTML.html");
-            int size = inputStream.available();
-            byte[] buffer = new byte[size];
-            inputStream.read(buffer);
-            inputStream.close();
-            return new String(buffer, StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "";
-        }
-    }
-
-    private String renderHtmlWithMustache(List<Map<String, String>> itemList) {
-        try {
-            // Load HTML template from assets folder
-            InputStream inputStream = getAssets().open("secondHTML.html");
+            InputStream inputStream = getAssets().open("rihSheet.html");
             int size = inputStream.available();
             byte[] buffer = new byte[size];
             inputStream.read(buffer);
@@ -170,18 +164,7 @@ public class MainActivity extends AppCompatActivity {
             // Compile the template
             Template template = Mustache.compiler().compile(templateString);
 
-            // Render the template with data
-            Map<String, Object> data = new HashMap<>();
-            data.put("company", "#REF!");
-            data.put("field_name", "#REF!");
-            data.put("well_name", "#REF!");
-            data.put("job_no", "#REF!");
-            data.put("sensor_no", "51090019");
-            data.put("checked_by", "Jaber");
-            data.put("meggered_at", "1 K");
-            data.put("rih_pane", "15220284");
-            data.put("items", itemList);
-            return template.execute(data);
+            return template.execute(itemList);
         } catch (IOException e) {
             e.printStackTrace();
             return "";

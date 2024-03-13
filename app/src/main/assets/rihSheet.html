@@ -104,19 +104,17 @@
     <body>
 
     <div class="bordered-text">
-        <text class="fontSize12head"> RIH Sheet </text>
+        <text class="fontSize12head"> {{ title }} </text>
     </div>
 
 
     <div class="table-container">
             <table class="table3">
                 <tbody>
-
                     <tr> <td class="td1"> Company    </td> </tr>
                     <tr> <td class="td1"> Field Name </td> </tr>
                     <tr> <td class="td1"> Well Name  </td> </tr>
                     <tr> <td class="td1"> Job No     </td> </tr>
-
                 </tbody>
             </table>
 
@@ -135,7 +133,6 @@
                     <tr> <td class="td1"> Checked by   </td> </tr>
                     <tr> <td class="td1"> Meggered at  </td>  </tr>
                     <tr> <td class="td1"> RIH Pane     </td>  </tr>
-
                 </tbody>
             </table>
 
@@ -193,10 +190,10 @@
         </div>
     <div class="lastTextField">
         <div style="margin-left: 8px;">
-            <span class="text">Aramco Rep:</span> <span class="text">Variable Value 1</span>
+            <span class="text">Aramco Rep:</span> <span class="text">{{ aramco_rep }}</span>
         </div>
         <div style="margin-right: 8px;">
-            <span class="text">APC Rep:</span> <span class="text"> Jaber Alhajri</span>
+            <span class="text">APC Rep:</span> <span class="text"> {{ apc_rep }}</span>
         </div>
     </div>
 
